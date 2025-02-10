@@ -19,6 +19,8 @@ kotlin {
             jvmTarget.set(JvmTarget.JVM_11)
         }
     }
+
+    jvm("desktop")
     
     listOf(
         iosX64(),
@@ -30,8 +32,6 @@ kotlin {
             isStatic = true
         }
     }
-    
-    jvm("desktop")
     
     @OptIn(ExperimentalWasmDsl::class)
     wasmJs {

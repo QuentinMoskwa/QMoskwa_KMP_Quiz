@@ -1,8 +1,10 @@
 package com.wordline.quiz.screen
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,35 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun scoreScreen(score: String){
-    Box(
-        contentAlignment = Alignment.Center,
-        modifier = Modifier.fillMaxWidth().fillMaxHeight()
+fun ScoreScreen(playerName: String, score: Int, total: Int, onRetry: () -> Unit) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Card(
-            shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(10.dp),
-            backgroundColor = Color.LightGray
-        ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Text(
-                        fontSize = 14.sp,
-                        text = "score",
-                    )
-                    Text(
-                        fontSize = 24.sp,
-                        text = score,
-                    )
-                    Button(
-                        modifier = Modifier.padding(20.dp),
-                        onClick = { }
-                    ) {
-                        Icon(Icons.Filled.Refresh, contentDescription = "Localized description")
-                        Text(text = "Retake the Quiz")
-                    }
-                }
-            }
+        Text("$playerName's Score: $score/$total", fontSize = 24.sp)
+        Button(onClick = onRetry) {
+            Text("Retry")
         }
     }
 }

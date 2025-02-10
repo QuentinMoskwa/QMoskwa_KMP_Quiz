@@ -1,3 +1,7 @@
 package com.wordline.quiz.network.data
 
-data class Quiz(var questions: List<Question>)
+data class Quiz(
+    val id: Int,
+    val name: String,
+    val questions: List<Question>
+)
