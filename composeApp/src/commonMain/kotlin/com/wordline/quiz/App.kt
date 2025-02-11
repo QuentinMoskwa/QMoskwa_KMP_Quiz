@@ -44,19 +44,25 @@ fun App(
                 val selectedQuiz = quizzes.find { it.id == quizId }
 
                 if (quizId != null) {
-                    ChooseOptionsScreen(navController, quizId, QuizSettings(), {}, {})
+                    ChooseOptionsScreen(navController, quizId, QuizSettings())
                 }
 
             }
-            // TODO insérer les settings dans le quiz
-            composable("quiz/{quizId}") { backStackEntry ->
+            composable("quiz/{quizId}/{isTimed}/{isSuddenDeath}/{isSpeedScoring}/{timeLeft}") { backStackEntry ->
                 val quizId = backStackEntry.arguments?.getString("quizId")?.toIntOrNull()
+                val isTimed = backStackEntry.arguments?.getString("isTimed")?.toBoolean() ?: false
+                val isSuddenDeath = backStackEntry.arguments?.getString("isSuddenDeath")?.toBoolean() ?: false
+                val isSpeedScoring = backStackEntry.arguments?.getString("isSpeedScoring")?.toBoolean() ?: false
+                var timeLeft = backStackEntry.arguments?.getString("timeLeft")?.toIntOrNull() ?: 0
+                val settings = QuizSettings(isTimed, isSuddenDeath, isSpeedScoring)
+
                 val selectedQuiz = quizzes.find { it.id == quizId }
 
                 if (selectedQuiz != null) {
-                    QuestionScreen(navController, selectedQuiz)
+                    QuestionScreen(navController, selectedQuiz, settings, timeLeft)
                 }
             }
+
             composable("score/{score}/{total}") { backStackEntry ->
                 val score = backStackEntry.arguments?.getString("score")?.toIntOrNull() ?: 0
                 val total = backStackEntry.arguments?.getString("total")?.toIntOrNull() ?: 1

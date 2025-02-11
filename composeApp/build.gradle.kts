@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.composeMultiplatform)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinSerialization)
+    id("kotlin-parcelize")
 }
 
 kotlin {
@@ -109,6 +110,7 @@ android {
 dependencies {
     implementation(libs.androidx.ui.test.android)
     debugImplementation(compose.uiTooling)
+    implementation(libs.androidx.core.ktx.v1100)
 }
 
 compose.desktop {

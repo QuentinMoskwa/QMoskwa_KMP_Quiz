@@ -17,9 +17,7 @@ import com.wordline.quiz.network.data.QuizSettings
 fun ChooseOptionsScreen(
     navController: NavController,
     quizId: Int,
-    quizSettings: QuizSettings,
-    onSettingsChanged: (QuizSettings) -> Unit,
-    onStartQuiz: () -> Unit
+    quizSettings: QuizSettings
 ) {
 
     var settings by rememberSaveable { mutableStateOf(quizSettings) }
@@ -42,7 +40,19 @@ fun ChooseOptionsScreen(
         }
 
         // Utilise quizId ici
-        Button(onClick = { navController.navigate("quiz/$quizId") }) {
+        Button(onClick = {
+            // Passer les settings via les arguments de la navigation
+            var time = 0
+            if(settings.isTimed)
+            {
+                time = 60
+            }
+            else
+            {
+                time = 0
+            }
+            navController.navigate("quiz/$quizId/${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/${time}")
+        }) {
             Text("Commencer le quiz")
         }
     }
