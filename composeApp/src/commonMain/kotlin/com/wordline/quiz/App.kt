@@ -63,17 +63,31 @@ fun App(
                 }
             }
 
-            composable("score/{score}/{total}") { backStackEntry ->
+            composable("score/{score}/{total}/{quizId}/{isTimed}/{isSuddenDeath}/{isSpeedScoring}/{timeLeft}") { backStackEntry ->
                 val score = backStackEntry.arguments?.getString("score")?.toIntOrNull() ?: 0
                 val total = backStackEntry.arguments?.getString("total")?.toIntOrNull() ?: 1
+                val quizId = backStackEntry.arguments?.getString("quizId")?.toIntOrNull()
+                val isTimed = backStackEntry.arguments?.getString("isTimed")?.toBoolean() ?: false
+                val isSuddenDeath = backStackEntry.arguments?.getString("isSuddenDeath")?.toBoolean() ?: false
+                val isSpeedScoring = backStackEntry.arguments?.getString("isSpeedScoring")?.toBoolean() ?: false
+                val settings = QuizSettings(isTimed, isSuddenDeath, isSpeedScoring)
 
                 ScoreScreen(
                     playerName = if (playerName.isEmpty()) "Player" else playerName,
                     score = score,
                     total = total,
-                    onRetry = { navController.navigate("choose_quiz") }
+                    onRetry = {
+                        if (quizId != null) {
+                            navController.navigate("quiz/$quizId/$isTimed/$isSuddenDeath/$isSpeedScoring/60")
+                        }
+                    },
+                    onQuizSelection = { navController.navigate("choose_quiz") },
+                    onHome = { navController.navigate("welcome") }
                 )
             }
+
         }
     }
 }
+
+//TODO bien faire la réinit de timeStart/Taken lors du switch de question

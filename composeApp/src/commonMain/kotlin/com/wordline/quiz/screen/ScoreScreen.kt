@@ -22,15 +22,63 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun ScoreScreen(playerName: String, score: Int, total: Int, onRetry: () -> Unit) {
+fun ScoreScreen(
+    playerName: String,
+    score: Int,
+    total: Int,
+    onRetry: () -> Unit,
+    onQuizSelection: () -> Unit,
+    onHome: () -> Unit
+) {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text("$playerName's Score: $score/$total", fontSize = 24.sp)
-        Button(onClick = onRetry) {
-            Text("Retry")
+        // Carte contenant le score du joueur
+        Card(
+            shape = RoundedCornerShape(16.dp),
+            elevation = 8.dp,
+            modifier = Modifier
+                .fillMaxWidth(0.8f)
+                .padding(16.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = "$playerName's Score: $score/$total",
+                    fontSize = 24.sp
+                )
+            }
+        }
+
+        // Bouton "Recommencer" pour relancer le quiz avec les mêmes paramètres
+        Button(
+            onClick = onRetry,
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Icon(imageVector = Icons.Default.Refresh, contentDescription = "Retry")
+            Text(text = "Retry")
+        }
+
+        // Bouton pour revenir à la sélection des quiz
+        Button(
+            onClick = onQuizSelection,
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("Choisir un quiz")
+        }
+
+        // Bouton pour revenir à l'accueil
+        Button(
+            onClick = onHome,
+            modifier = Modifier.padding(top = 8.dp)
+        ) {
+            Text("Accueil")
         }
     }
 }

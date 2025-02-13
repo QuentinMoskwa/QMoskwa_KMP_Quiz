@@ -3,15 +3,24 @@ package com.wordline.quiz.screen
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.wordline.quiz.network.data.Question
 import com.wordline.quiz.network.data.QuizSettings
+
+// Définition du Saver personnalisé pour QuizSettings
+val quizSettingsSaver = Saver<QuizSettings, List<Boolean>>(
+    save = { listOf(it.isTimed, it.isSuddenDeath, it.isSpeedScoring) },
+    restore = { QuizSettings(it[0], it[1], it[2]) }
+)
 
 @Composable
 fun ChooseOptionsScreen(
@@ -19,41 +28,46 @@ fun ChooseOptionsScreen(
     quizId: Int,
     quizSettings: QuizSettings
 ) {
+    var settings by rememberSaveable(stateSaver = quizSettingsSaver) { mutableStateOf(quizSettings) }
 
-    var settings by rememberSaveable { mutableStateOf(quizSettings) }
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Select Options", fontSize = 24.sp)
-        Spacer(modifier = Modifier.height(16.dp))
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Options du quiz") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.popBackStack() }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Retour")
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Sélectionnez les options", fontSize = 24.sp)
+            Spacer(modifier = Modifier.height(16.dp))
 
-        CheckboxWithLabel("Time Limit", settings.isTimed) {
-            settings = settings.copy(isTimed = it)
-        }
-        CheckboxWithLabel("1 Mistake = Game Over (x2 points)", settings.isSuddenDeath) {
-            settings = settings.copy(isSuddenDeath = it)
-        }
-        CheckboxWithLabel("Time Attack (faster = more points)", settings.isSpeedScoring) {
-            settings = settings.copy(isSpeedScoring = it)
-        }
-
-        // Utilise quizId ici
-        Button(onClick = {
-            // Passer les settings via les arguments de la navigation
-            var time = 0
-            if(settings.isTimed)
-            {
-                time = 60
+            CheckboxWithLabel("Limite de temps", settings.isTimed) {
+                settings = settings.copy(isTimed = it)
             }
-            else
-            {
-                time = 0
+            CheckboxWithLabel("1 erreur = fin du jeu (x2 points)", settings.isSuddenDeath) {
+                settings = settings.copy(isSuddenDeath = it)
             }
-            navController.navigate("quiz/$quizId/${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/${time}")
-        }) {
-            Text("Commencer le quiz")
+            CheckboxWithLabel("Time Attack (plus rapide = plus de points)", settings.isSpeedScoring) {
+                settings = settings.copy(isSpeedScoring = it)
+            }
+
+            Button(onClick = {
+                val time = if (settings.isTimed) 60 else 0
+                navController.navigate("quiz/$quizId/${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/$time")
+            }) {
+                Text("Commencer le quiz")
+            }
         }
     }
 }
@@ -65,7 +79,7 @@ fun CheckboxWithLabel(label: String, checked: Boolean, onCheckedChange: (Boolean
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(8.dp)
     ) {
-        androidx.compose.material.Checkbox(
+        Checkbox(
             checked = checked,
             onCheckedChange = onCheckedChange
         )

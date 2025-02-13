@@ -15,11 +15,15 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.LinearProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.RadioButton
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.Composable
@@ -42,22 +46,37 @@ import com.wordline.quiz.network.data.quizzes
 @Composable
 fun ChooseQuizScreen(
     navController: NavHostController,
-    quizzes: List<Quiz> // Ajout de quizzes en paramètre
+    quizzes: List<Quiz>
 ) {
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text("Choisissez un quiz", style = MaterialTheme.typography.h4)
-        Spacer(modifier = Modifier.height(16.dp))
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = { Text("Sélection du quiz") },
+                navigationIcon = {
+                    IconButton(onClick = { navController.navigate("welcome") }) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Accueil")
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text("Choisissez un quiz", style = MaterialTheme.typography.h4)
+            Spacer(modifier = Modifier.height(16.dp))
 
-        quizzes.forEach { quiz ->
-            Button(
-                onClick = { navController.navigate(route = "choose_options/${quiz.id}") },
-                modifier = Modifier.padding(8.dp)
-            ) {
-                Text(text = quiz.name)
+            quizzes.forEach { quiz ->
+                Button(
+                    onClick = { navController.navigate(route = "choose_options/${quiz.id}") },
+                    modifier = Modifier.padding(8.dp)
+                ) {
+                    Text(text = quiz.name)
+                }
             }
         }
     }

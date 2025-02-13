@@ -19,8 +19,17 @@ junit = "4.13.2"
 kotlin = "2.1.0"
 kotlinx-coroutines = "1.9.0"
 uiTestAndroid = "1.7.6"
+kstore = "x.x.x"
 
 [libraries]
+# for common
+kstore = { module = "io.github.xxfast:kstore", version.ref = "kstore" }
+
+# for android, iOS, desktop and nodeJs
+kstore-file = { module = "io.github.xxfast:kstore-file", version.ref = "kstore" }
+
+# for jsBrowser and wasmJsBrowser
+kstore-storage = { module = "io.github.xxfast:kstore-storage", version.ref = "kstore" }
 androidx-core-ktx-v1100 = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 kotlin-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "navigation" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktorVersion" }
