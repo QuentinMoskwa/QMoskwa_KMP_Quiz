@@ -51,8 +51,7 @@ fun QuestionScreen(
                 timeLeft--
                 if (timeLeft == 0) {
                     navController.navigate(
-                        "score/$score/${quiz.questions.size}/${quiz.id}/" +
-                                "${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}"
+                        "score/$score/${quiz.id}/${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/0"
                     )
                 }
             }
@@ -112,8 +111,7 @@ fun QuestionScreen(
 
                                 if (!isCorrect && settings.isSuddenDeath) {
                                     navController.navigate(
-                                        "score/$score/${quiz.questions.size}/${quiz.id}/" +
-                                                "${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/${timeLeft - 60}"
+                                        "score/$score/${quiz.id}/${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/${timeLeft - 60}"
                                     )
                                 } else {
                                     showResult = isCorrect
@@ -159,7 +157,7 @@ fun QuestionScreen(
                 currentQuestionIndex++
             } else {
                 navController.navigate(
-                    "score/$score/${quiz.questions.size}/${quiz.id}/" +
+                    "score/$score/${quiz.id}/" +
                             "${settings.isTimed}/${settings.isSuddenDeath}/${settings.isSpeedScoring}/${timeTaken - 60}"
                 )
             }
