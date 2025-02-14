@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.wordline.quiz.network.data.QuizSettings
 
-// Définition du Saver personnalisé pour QuizSettings
 val quizSettingsSaver = Saver<QuizSettings, List<Boolean>>(
     save = { listOf(it.isTimed, it.isSuddenDeath, it.isSpeedScoring) },
     restore = { QuizSettings(it[0], it[1], it[2]) }

@@ -19,7 +19,7 @@ junit = "4.13.2"
 kotlin = "2.1.0"
 kotlinx-coroutines = "1.9.0"
 uiTestAndroid = "1.7.6"
-kstore = "x.x.x"
+kstore = "0.9.1"
 
 [libraries]
 # for common

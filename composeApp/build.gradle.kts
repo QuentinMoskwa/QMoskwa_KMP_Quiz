@@ -60,8 +60,10 @@ kotlin {
         androidMain.dependencies {
             implementation(compose.preview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.kstore.file)
         }
         commonMain.dependencies {
+            implementation(libs.kstore)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -77,6 +79,7 @@ kotlin {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutines.swing)
         }
+
     }
 }
 

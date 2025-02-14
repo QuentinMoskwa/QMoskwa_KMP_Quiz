@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 fun ScoreScreen(
     playerName: String,
     score: Int,
-    total: Int,
     onRetry: () -> Unit,
     onQuizSelection: () -> Unit,
     onHome: () -> Unit
@@ -35,7 +34,6 @@ fun ScoreScreen(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        // Carte contenant le score du joueur
         Card(
             shape = RoundedCornerShape(16.dp),
             elevation = 8.dp,
@@ -50,13 +48,12 @@ fun ScoreScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "$playerName's Score: $score/$total",
+                    text = "$playerName's Score: $score",
                     fontSize = 24.sp
                 )
             }
         }
 
-        // Bouton "Recommencer" pour relancer le quiz avec les mêmes paramètres
         Button(
             onClick = onRetry,
             modifier = Modifier.padding(top = 8.dp)
@@ -65,7 +62,6 @@ fun ScoreScreen(
             Text(text = "Retry")
         }
 
-        // Bouton pour revenir à la sélection des quiz
         Button(
             onClick = onQuizSelection,
             modifier = Modifier.padding(top = 8.dp)
@@ -73,7 +69,6 @@ fun ScoreScreen(
             Text("Choisir un quiz")
         }
 
-        // Bouton pour revenir à l'accueil
         Button(
             onClick = onHome,
             modifier = Modifier.padding(top = 8.dp)
